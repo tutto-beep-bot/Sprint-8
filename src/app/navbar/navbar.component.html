@@ -6,18 +6,18 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home
+          <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link" href="#">Home
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Map</a>
+          <a [routerLink]="['/map']" routerLinkActive="active" class="nav-link" href="#">Map</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Calendar</a>
+          <a [routerLink]="['/calendar']" routerLinkActive="active" class="nav-link" href="#">Calendar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Charts</a>
+          <a [routerLink]="['/charts']" routerLinkActive="active" class="nav-link" href="#">Charts</a>
         </li>
       </ul>
       <!-- <form class="d-flex">
