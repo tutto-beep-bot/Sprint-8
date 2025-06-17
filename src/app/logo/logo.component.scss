@@ -1,0 +1,24 @@
+.logo-link {
+    display: block;
+    line-height: 0;
+    font-size: 0;
+    object-fit: contain;
+    cursor: pointer;
+    
+
+    img {
+        display: block;
+        height: 80px;
+        width: auto;
+    }
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d9831f;
+    padding: 0;
+    margin: 0;
+    height: auto;
+}
