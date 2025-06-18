@@ -3,19 +3,22 @@
       <div class="card-header"><strong>Add Product</strong></div>
       <div class="card-body">
 
-        <form>
+        <form [formGroup]="form" (ngSubmit)="addProduct()">
             <label for="name">Name: </label>
-            <input type="text" class="form-control" id="name">
+            <input formControlName="name" type="text" class="form-control" id="name">
+
             <label for="description">Description: </label>
-            <input type="text" class="form-control" id="description">
+            <input formControlName="description" type="text" class="form-control" id="description">
+
             <label for="price">Price:</label>
-            <input type="number" class="form-control" id="price">
+            <input formControlName="price" type="number" class="form-control" id="price">
+
             <label for="stock">Stock</label>
-            <input type="number" class="form-control" id="stock">
+            <input formControlName="stock" type="number" class="form-control" id="stock">
     
             <div class="button-container">
                 <button type="button" class="btn btn-secondary" [routerLink]="['/']">Return</button>
-                <button type="button" class="btn btn-success">Submit</button>
+                <button [disabled]="form.invalid" type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
 
