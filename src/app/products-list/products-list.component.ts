@@ -11,7 +11,7 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class ProductsListComponent {
   productsList: Product[] = [
-    { name: 'Jamon', description: '250g', price: 1.99, stock: 12},
-    { name: 'Coca-Cola', description: 'Cancer in a bottle', price: 1.89, stock: 87}
+    { id: 1, name: 'Jamon', description: '250g', price: 1.99, stock: 12},
+    { id: 2, name: 'Coca-Cola', description: 'Cancer in a bottle', price: 1.89, stock: 87}
   ]
 }

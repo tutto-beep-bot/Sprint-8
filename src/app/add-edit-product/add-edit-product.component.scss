@@ -1,0 +1,16 @@
+.card-container {
+    display: flex;
+    justify-content: center;
+    min-width: 25rem;
+    margin-top: 2rem;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.8rem;
+}
