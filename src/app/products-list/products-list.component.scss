@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    text-decoration: underline;
 }
 
 .container {
@@ -15,4 +16,8 @@
  
 .table {
     margin-top: 2rem;
+}
+
+.button-edit {
+    margin-right: 0.5rem;
 }
