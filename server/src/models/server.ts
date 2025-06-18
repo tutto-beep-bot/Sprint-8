@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import routesProduct from '../routes/product'
 
 class Server {
     private app: Application;
@@ -6,16 +7,25 @@ class Server {
 
 
     constructor() {
-        console.log(process.env.PORT)
         this.app = express();
-        this.port = '3001';
+        this.port = process.env.PORT || '3001';
         this.listen();
+        this.routes();
     }
 
     listen(){
         this.app.listen(this.port, () => {
             console.log(`Application running in port ${this.port}`)
         })
+    }
+
+    routes() {
+        this.app.get('/', (req: Request, res: Response) => {
+            res.json({
+                msg : 'API Working'
+            })
+        })
+        this.app.use('/api/products', routesProduct)
     }
 }
 
