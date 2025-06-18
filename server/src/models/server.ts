@@ -6,6 +6,7 @@ class Server {
 
 
     constructor() {
+        console.log(process.env.PORT)
         this.app = express();
         this.port = '3001';
         this.listen();
