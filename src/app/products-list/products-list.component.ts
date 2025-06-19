@@ -10,8 +10,5 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './products-list.component.scss'
 })
 export class ProductsListComponent {
-  productsList: Product[] = [
-    { id: 1, name: 'Jamon', description: '250g', price: 1.99, stock: 12},
-    { id: 2, name: 'Coca-Cola', description: 'Cancer in a bottle', price: 1.89, stock: 87}
-  ]
+  productsList: Product[] = []
 }
