@@ -36,22 +36,46 @@ export const deleteProduct = async (req: Request, res: Response) => {
     }
 }
 
-export const postProduct = (req: Request, res: Response) => {
+export const postProduct = async (req: Request, res: Response) => {
     const { body } = req;
 
-    res.json({
-        msg: 'Post Product',
-        body
-    })
+    try {
+        await Product.create(body);
+        res.json({
+            msg: 'The product was added successfully'
+        })
+    } catch(error){
+        console.log(error);
+        res.json({
+            msg: `Ooops, there was an error: (${error}). Please contact support.`
+        })
+    }
+
+
+    
 }
 
-export const updateProduct = (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;
 
-    res.json({
-        msg: 'Update Product',
-        id,
-        body
-    })
+    try {
+        const product = await Product.findByPk(id);
+
+        if(product){
+            await product.update(body)
+            res.json({
+                msg: 'The product was edited successfully.'
+            })
+        } else {
+            res.status(404).json({
+                msg: `There is no product with this id: ${id}` 
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Ooops, there was an error: (${error}). Please contact support.`
+        })
+    }
 }
