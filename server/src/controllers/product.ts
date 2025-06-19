@@ -14,3 +14,12 @@ export const getProduct = (req: Request, res: Response) => {
         id
     })
 }
+
+export const deleteProduct = (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    res.json({
+        msg: 'Delete Product',
+        id
+    })
+}
