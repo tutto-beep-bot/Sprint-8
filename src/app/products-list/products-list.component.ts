@@ -3,6 +3,7 @@ import { Product } from '../interfaces/product';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ProductService } from '../services/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products-list',
@@ -13,7 +14,7 @@ import { ProductService } from '../services/product.service';
 export class ProductsListComponent {
   productsList: Product[] = []
 
-  constructor(private _productService: ProductService) {
+  constructor(private _productService: ProductService, private toastr: ToastrService) {
 
   }
 
@@ -28,8 +29,16 @@ export class ProductsListComponent {
   }
 
   deleteProduct(id: number) {
-    this._productService.deleteProduct(id).subscribe(() => {
-      this.getListProducts();
-    })
+    const confirmed: boolean = window.confirm('Are you sure you want to delete this product?');
+
+    if(confirmed) {
+      this._productService.deleteProduct(id).subscribe(() => {
+        this.getListProducts();
+        this.toastr.warning('Product was deleted successfully.', 'Product deleted')
+      })
+    }
+
   }
+
+
 }
