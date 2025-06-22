@@ -21,9 +21,15 @@ export class ProductsListComponent {
     this.getListProducts()
   }
 
-  getListProducts(){
-    this._productService.getListProducts().subscribe((data) => {
+  getListProducts() {
+    this._productService.getListProducts().subscribe((data: Product[]) => {
       this.productsList = data;
+    })
+  }
+
+  deleteProduct(id: number) {
+    this._productService.deleteProduct(id).subscribe(() => {
+      this.getListProducts();
     })
   }
 }

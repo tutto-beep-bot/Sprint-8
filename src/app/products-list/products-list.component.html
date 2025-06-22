@@ -33,7 +33,7 @@
 				<td>{{ product.stock }}</td>
 				<td>
 				    <button type="button" class="btn btn-info btn-sm ms-2 button-edit" [routerLink]="['/edit/', product.id]">Edit</button>
-					<button type="button" class="btn btn-primary btn-sm">Delete</button>
+					<button type="button" class="btn btn-primary btn-sm" (click)="deleteProduct(product.id!)">Delete</button>
 		
 				</td>
 			</tr>
