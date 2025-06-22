@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductsListComponent {
   productsList: Product[] = []
+  searchTerm: string = '';
 
   constructor(private _productService: ProductService, private toastr: ToastrService) {
 
@@ -37,8 +38,17 @@ export class ProductsListComponent {
         this.toastr.warning('Product was deleted successfully.', 'Product deleted')
       })
     }
-
   }
 
+ filteredProducts() {
+
+    const term = this.searchTerm.trim().toLocaleLowerCase();
+
+    if(!term) return this.productsList;
+
+    return this.productsList.filter(product => 
+      product.name.toLowerCase().startsWith(term)
+    );
+  }
 
 }
