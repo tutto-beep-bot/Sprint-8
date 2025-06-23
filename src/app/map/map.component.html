@@ -1,6 +1,6 @@
 <div id="map" style="height: 600px; width: 1200px; margin: 0 auto;"></div>
 
-@if(newMarkerCoords){
+<!-- @if(newMarkerCoords){
     <div class="marker-form">
         <h4>Add Location</h4>
         <form (ngSubmit)="submitNewLocation()" #markerForm="ngForm">
@@ -11,4 +11,45 @@
             <button type="button" (click)="cancelNewMarker()">Cancel</button>
         </form>
     </div>
-}
+} -->
+
+
+<div
+  class="modal fade show"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: newMarkerCoords ? 'block' : 'none' }"
+  [ngClass]="{ 'd-block': newMarkerCoords }"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Location</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="cancelNewMarker()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitNewLocation()" #markerForm="ngForm">
+          <div class="form-group">
+            <label for="name">Location Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              [(ngModel)]="newMarkerName"
+              name="name"
+              required
+            />
+          </div>
+          <div class="mt-3 text-end">
+            <button type="submit" class="btn btn-primary me-2" [disabled]="!markerForm.valid">
+              Add Marker
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelNewMarker()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

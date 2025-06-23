@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import * as mapboxgl from 'mapbox-gl';
 import { MapService } from '../services/map.service';
 import { Location } from '../interfaces/location';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
@@ -15,7 +17,7 @@ export class MapComponent {
   newMarkerName: string = ''
   newMarkerCoords: [number, number] | null = null;
 
-  constructor(private _mapService: MapService) {}
+  constructor(private _mapService: MapService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
 
@@ -69,6 +71,7 @@ export class MapComponent {
         .setPopup(new mapboxgl.Popup().setText(saved.name))
         .addTo(this.map);
 
+      this.toastr.success('Location added successfully.', 'Location Added')
       this.newMarkerCoords = null;
       this.newMarkerName = ''
     });
