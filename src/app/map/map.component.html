@@ -1,1 +1,14 @@
 <div id="map" style="height: 600px; width: 1200px; margin: 0 auto;"></div>
+
+@if(newMarkerCoords){
+    <div class="marker-form">
+        <h4>Add Location</h4>
+        <form (ngSubmit)="submitNewLocation()" #markerForm="ngForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" [(ngModel)]="newMarkerName" name="name" required>
+
+            <button type="submit" [disabled]="!markerForm.valid">Add Marker</button>
+            <button type="button" (click)="cancelNewMarker()">Cancel</button>
+        </form>
+    </div>
+}
