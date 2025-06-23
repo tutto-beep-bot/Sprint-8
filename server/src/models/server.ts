@@ -3,6 +3,7 @@ import cors from 'cors';
 import routesProduct from '../routes/product'
 import db from '../db/connection';
 import location from '../models/location';
+import locationRoutes from '../routes/location';
 
 class Server {
     private app: Application;
@@ -31,6 +32,7 @@ class Server {
             })
         })
         this.app.use('/api/products', routesProduct)
+        this.app.use('/api/locations', locationRoutes)
     }
 
     midlewares() {
@@ -46,6 +48,7 @@ class Server {
         try {
             await db.authenticate();
             console.log('Database connected.')
+            await db.sync();
         } catch(error) {
             console.log(error);
             console.log('Error connecting to database');
