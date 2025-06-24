@@ -1,1 +1,33 @@
-<p>charts works!</p>
+<div class="title">
+    <h2>Charts</h2>
+</div>
+<div class="header-container">
+
+
+
+</div>
+
+<div class="chart-container" style="width: 600px; height: 400px;">
+    <h4>Products in stock at <br> the warehouse: </h4>
+
+    @if (loading) {
+        <h4>Loading chart...</h4>
+    }
+    
+    @if (error){
+        <h4>Ops! Could not load chart.</h4>
+    }
+    
+    @if(!loading && !error) {
+        <ngx-charts-pie-chart
+          [results]="topStockData"
+          [legend]="true"
+          [doughnut]="false"
+          [labels]="true"
+          [explodeSlices]="true"
+          [gradient]="true"
+          [animations]="true">
+        </ngx-charts-pie-chart>
+    }
+</div>
+
