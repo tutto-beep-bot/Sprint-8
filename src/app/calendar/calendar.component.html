@@ -1,1 +1,8 @@
-<p>calendar works!</p>
+<div class="calendar-container">
+    <button class="btn btn-success mb-3" (click)="handleAddEvent()">Add Event</button>
+    
+    <full-calendar
+      [options]="calendarOptions"
+    ></full-calendar>
+</div>
+
