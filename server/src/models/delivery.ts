@@ -12,7 +12,7 @@ const Delivery = db.define('Delivery', {
 	}, 
 	end: {
 		type: DataTypes.DATE,
-		allowNull: false
+		allowNull: true
 	}
 }, {
 	createdAt: false,

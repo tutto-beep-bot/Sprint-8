@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
 	calendarOptions: CalendarOptions = {
 		plugins: [dayGridPlugin, interactionPlugin],
 		initialView: 'dayGridMonth',
@@ -27,7 +28,7 @@ export class CalendarComponent {
 
 	constructor(private http: HttpClient) {}
 
-	ngOnInit() {
+	ngOnInit(){
 		this.fetchEvents();
 	}
 
@@ -63,9 +64,20 @@ export class CalendarComponent {
       		document.getElementById('deliveryModal')
     	);
     	modal.show();
-  }
+  	}
 
-	handleAddEvent() {
-  		alert('Modal coming soon...');
-	}
+	saveEvent() {
+    	const url = this.isEditing
+      		? `http://localhost:3000/api/deliveries/${this.editingEventId}`
+      		: 'http://localhost:3000/api/deliveries';
+
+    	const method = this.isEditing ? 'put' : 'post';
+
+    	this.http[method](url, this.eventData).subscribe(() => {
+      		this.fetchEvents();
+      		(window as any).bootstrap.Modal.getInstance(
+        		document.getElementById('deliveryModal')
+      		).hide();
+    	});
+  	}
 }
