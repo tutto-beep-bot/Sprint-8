@@ -1,14 +1,10 @@
 <div class="title">
     <h2>Charts</h2>
 </div>
-<div class="header-container">
-
-
-
-</div>
+<br>
 
 <div class="chart-container" style="width: 600px; height: 400px;">
-    <h4>Products in stock at <br> the warehouse: </h4>
+    <h4>Products in stock at the warehouse: </h4> <br>
 
     @if (loading) {
         <h4>Loading chart...</h4>
@@ -28,6 +24,21 @@
           [gradient]="true"
           [animations]="true">
         </ngx-charts-pie-chart>
+
+        <br><br>
+        <br><br>
+        <hr>
+        
+        <h4>Main products according to price:</h4>
+        <ngx-charts-bar-vertical
+            [results]="priceData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showDataLabel]="true"
+            [roundEdges]="true"
+            [scheme]="colorScheme">
+  </ngx-charts-bar-vertical>
     }
 </div>
 

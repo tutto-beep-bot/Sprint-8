@@ -12,8 +12,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 })
 export class ChartsComponent {
     topStockData: { name: string; value: number }[] = [];
+	priceData: { name: string; value: number }[] = [];
   	loading = true;
   	error = false;
+
+	colorScheme = 'vivid'
 
   	constructor(private http: HttpClient) {}
 
@@ -28,6 +31,11 @@ export class ChartsComponent {
           		this.topStockData = top10.map(p => ({
             		name: p.name,
             		value: p.stock
+          		}));
+
+				this.priceData = products.map(p => ({
+            		name: p.name,
+            		value: p.price
           		}));
 
           		this.loading = false;
