@@ -4,6 +4,7 @@ import routesProduct from '../routes/product'
 import db from '../db/connection';
 import location from '../models/location';
 import locationRoutes from '../routes/location';
+import deliveryRoutes from '../routes/delivery';
 
 class Server {
     private app: Application;
@@ -31,8 +32,9 @@ class Server {
                 msg : 'API Working'
             })
         })
-        this.app.use('/api/products', routesProduct)
-        this.app.use('/api/locations', locationRoutes)
+        this.app.use('/api/products', routesProduct);
+        this.app.use('/api/locations', locationRoutes);
+        this.app.use('/api/deliveries', deliveryRoutes);
     }
 
     midlewares() {
