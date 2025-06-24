@@ -4,10 +4,11 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-calendar',
-  imports: [FullCalendarModule],
+  imports: [FullCalendarModule, FormsModule],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
@@ -20,9 +21,17 @@ export class CalendarComponent {
 		eventClick: this.handleEventClick.bind(this),
 	}
 
+	eventData = { title: '', start: '' };
+	isEditing = false;
+	editingEventId: number | null = null;
+
 	constructor(private http: HttpClient) {}
 
 	ngOnInit() {
+		this.fetchEvents();
+	}
+
+	fetchEvents(){
 		this.http.get<any[]>('http://localhost:3000/api/deliveries')
 			.subscribe(events => {
 				this.calendarOptions.events = events;
@@ -30,12 +39,31 @@ export class CalendarComponent {
 	}
 
 	handleDateClick(arg: any) {
-    	alert('Clicked on date: ' + arg.dateStr);
+    	this.eventData = {
+      		title: '',
+      		start: arg.dateStr
+    	};
+    	this.isEditing = false;
+    	this.editingEventId = null;
+    	this.openModal();
   	}
 
   	handleEventClick(arg: any) {
-    	alert('Clicked event: ' + arg.event.title);
+    	this.eventData = {
+      		title: arg.event.title,
+      		start: arg.event.startStr
+    	};
+    	this.isEditing = true;
+    	this.editingEventId = arg.event.id;
+    	this.openModal();
   	}
+
+	openModal() {
+    	const modal = new (window as any).bootstrap.Modal(
+      		document.getElementById('deliveryModal')
+    	);
+    	modal.show();
+  }
 
 	handleAddEvent() {
   		alert('Modal coming soon...');

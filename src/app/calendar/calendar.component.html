@@ -2,7 +2,34 @@
     <button class="btn btn-success mb-3" (click)="handleAddEvent()">Add Event</button>
     
     <full-calendar
-      [options]="calendarOptions"
+      	[options]="calendarOptions"
     ></full-calendar>
 </div>
 
+
+<div class="modal fade" id="deliveryModal" tabindex="-1" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="deliveryModalLabel">{{ isEditing ? 'Edit' : 'Add' }} Delivery</h5>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+        		<form>
+          			<div class="mb-3">
+            			<label class="form-label">Title</label>
+            			<input [(ngModel)]="eventData.title" name="title" class="form-control">
+          			</div>
+          			<div class="mb-3">
+            			<label class="form-label">Date</label>
+            			<input [(ngModel)]="eventData.start" name="start" type="date" class="form-control">
+          			</div>
+        		</form>
+      		</div>
+      		<div class="modal-footer">
+        		<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        		<button class="btn btn-primary" (click)="saveEvent()">Save</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
