@@ -40,8 +40,11 @@
         		</form>
       		</div>
       		<div class="modal-footer">
+				@if(isEditing){
+					<button class="btn btn-danger" (click)="deleteEvent()">Delete</button>
+				}
         		<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        		<button class="btn btn-primary" (click)="saveEvent()">Save</button>
+        		<button class="btn btn-success" (click)="saveEvent()">Save</button>
       		</div>
     	</div>
   	</div>

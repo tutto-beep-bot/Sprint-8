@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class CalendarComponent implements OnInit {
 	isEditing = false;
 	editingEventId: number | null = null;
 
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient, private toastr: ToastrService) {}
 
 	ngOnInit(){
 		this.fetchEvents();
@@ -69,7 +70,7 @@ export class CalendarComponent implements OnInit {
 			description: arg.event.extendedProps.description || ''
     	};
     	this.isEditing = true;
-    	this.editingEventId = arg.event.id;
+    	this.editingEventId = Number(arg.event.id);
     	this.openModal();
   	}
 
@@ -94,8 +95,30 @@ export class CalendarComponent implements OnInit {
       		).hide();
     	});
 
+		this.toastr.success('Delivery saved successfully.', 'Delivery saved')
+
 		this.eventData = { title: '', start: '', description: '' };
 		this.isEditing = false;
 		this.editingEventId = null;
   	}
+
+	deleteEvent() {
+  		if (!this.editingEventId) return;
+
+  		if (confirm('Are you sure you want to delete this delivery?')) {
+    		this.http.delete(`http://localhost:3000/api/deliveries/${this.editingEventId}`)
+      			.subscribe(() => {
+        			this.fetchEvents();
+        			(window as any).bootstrap.Modal.getInstance(
+          				document.getElementById('deliveryModal')
+        			).hide();
+		
+		this.toastr.warning('Event was deleted successfully.', 'Event deleted')
+		
+        this.eventData = { title: '', start: '', description: '' };
+        this.isEditing = false;
+        this.editingEventId = null;
+      });
+  }
+}
 }
