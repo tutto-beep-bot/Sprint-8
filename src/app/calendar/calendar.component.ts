@@ -6,6 +6,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ViewChild } from '@angular/core';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+
 
 @Component({
   selector: 'app-calendar',
@@ -14,15 +17,20 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
+
+	@ViewChild('calendar') CalendarComponent!: FullCalendarComponent;
+
 	calendarOptions: CalendarOptions = {
 		plugins: [dayGridPlugin, interactionPlugin],
 		initialView: 'dayGridMonth',
+		eventDisplay: 'block',
+		displayEventTime: false,
 		events: [],
 		dateClick: this.handleDateClick.bind(this),
 		eventClick: this.handleEventClick.bind(this),
 	}
 
-	eventData = { title: '', start: '' };
+	eventData = { title: '', start: '', description: '' };
 	isEditing = false;
 	editingEventId: number | null = null;
 
@@ -35,14 +43,19 @@ export class CalendarComponent implements OnInit {
 	fetchEvents(){
 		this.http.get<any[]>('http://localhost:3000/api/deliveries')
 			.subscribe(events => {
-				this.calendarOptions.events = events;
+				const calendarApi = this.CalendarComponent.getApi();
+        		calendarApi.removeAllEvents();
+        		events.forEach(event => {
+          			calendarApi.addEvent(event);
+        		});
 			});
 	}
 
 	handleDateClick(arg: any) {
     	this.eventData = {
       		title: '',
-      		start: arg.dateStr
+      		start: arg.dateStr,
+			description: ''
     	};
     	this.isEditing = false;
     	this.editingEventId = null;
@@ -52,7 +65,8 @@ export class CalendarComponent implements OnInit {
   	handleEventClick(arg: any) {
     	this.eventData = {
       		title: arg.event.title,
-      		start: arg.event.startStr
+      		start: arg.event.startStr,
+			description: arg.event.extendedProps.description || ''
     	};
     	this.isEditing = true;
     	this.editingEventId = arg.event.id;
@@ -79,5 +93,9 @@ export class CalendarComponent implements OnInit {
         		document.getElementById('deliveryModal')
       		).hide();
     	});
+
+		this.eventData = { title: '', start: '', description: '' };
+		this.isEditing = false;
+		this.editingEventId = null;
   	}
 }

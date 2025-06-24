@@ -8,10 +8,10 @@ export const getDeliveries = async (req: Request, res: Response) => {
 };
 
 export const postDelivery = async (req: Request, res: Response) => {
-    const { title, start, end } = req.body;
+    const { title, start, end, description } = req.body;
 
     try{
-        const newDelivery = await Delivery.create({ title, start, end });
+        const newDelivery = await Delivery.create({ title, start, end, description });
         res.status(201).json(newDelivery);
     } catch(error) {
         console.error(error);
@@ -21,7 +21,7 @@ export const postDelivery = async (req: Request, res: Response) => {
 
 export const putDelivery = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { title, start, end } = req.body;
+    const { title, start, end, description } = req.body;
 
     try {
         const delivery = await Delivery.findByPk(id);
@@ -29,7 +29,7 @@ export const putDelivery = async (req: Request, res: Response) => {
             res.status(404).json({ msg: 'Not Found' });
             return
         }
-        await delivery.update({ title, start, end });
+        await delivery.update({ title, start, end, description });
         res.json(delivery);
     } catch(error) {
         console.error(error);

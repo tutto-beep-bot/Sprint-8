@@ -13,6 +13,10 @@ const Delivery = db.define('Delivery', {
 	end: {
 		type: DataTypes.DATE,
 		allowNull: true
+	},
+	description: {
+		  type: DataTypes.STRING,
+		  allowNull: true
 	}
 }, {
 	createdAt: false,
