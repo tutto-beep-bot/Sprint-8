@@ -7,6 +7,14 @@
 	padding: 2rem;
 }
 
+.howto-container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 0.3rem;
+	text-decoration: underline;
+}
+
 ::ng-deep full-calendar {
   width: 100%;
   max-width: 1000px;
