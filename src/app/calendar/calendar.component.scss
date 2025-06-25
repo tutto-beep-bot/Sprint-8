@@ -43,6 +43,19 @@
   color: rgb(164, 54, 3); 
 }
 
+::ng-deep .fc-daygrid-day:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .fc-daygrid-day.fc-day-today:hover {
+  transform: scale(1.08);
+}
+
 ::ng-deep .fc-toolbar-title,
 ::ng-deep .fc-button {
   color: black;

@@ -9,6 +9,7 @@ import {
   	User
 } from 'firebase/auth';
 import { firebaseConfig } from '../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,19 @@ import { firebaseConfig } from '../../environments/environment';
 export class AuthService {
 	private app = initializeApp(firebaseConfig);
 	private auth = getAuth(this.app);
+	
+	private userSubject = new BehaviorSubject<User | null>(null);
+	user$ = this.userSubject.asObservable();
+	
 	currentUser: User | null = null;
 
   	constructor() {
+		console.log('AuthService started!');
+
 		onAuthStateChanged(this.auth, (user) => {
+			console.log('onAuthStateChanged fired!', user);
 			this.currentUser = user;
+			this.userSubject.next(user);
 		})
 	}
 

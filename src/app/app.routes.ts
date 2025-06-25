@@ -10,11 +10,11 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent},
-    { path: '', component: ProductsListComponent},
-    { path: 'add', component: AddEditProductComponent},
+    { path: '', component: ProductsListComponent, canActivate: [authGuard]},
+    { path: 'add', component: AddEditProductComponent, canActivate: [authGuard]},
     { path: 'edit/:id', component: AddEditProductComponent},
-    { path: 'map', component: MapComponent},
-    { path: 'calendar', component: CalendarComponent},
-    { path: 'charts', component: ChartsComponent},
+    { path: 'map', component: MapComponent, canActivate: [authGuard]},
+    { path: 'calendar', component: CalendarComponent, canActivate: [authGuard]},
+    { path: 'charts', component: ChartsComponent, canActivate: [authGuard]},
     { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
