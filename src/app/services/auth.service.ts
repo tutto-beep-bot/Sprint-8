@@ -29,4 +29,20 @@ export class AuthService {
 		return signInWithEmailAndPassword(this.auth, email, password);
 	}
 
+	register(email: string, password: string) {
+		return createUserWithEmailAndPassword(this.auth, email, password);
+	}
+
+	logout(){
+		return signOut(this.auth);
+	}
+
+	isAuthenticated() {
+		return !!this.currentUser;
+	}
+
+	getCurrentUser() {
+		return this.currentUser;
+	}
+
 }
