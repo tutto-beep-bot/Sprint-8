@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -22,6 +22,13 @@ export class LoginComponent {
     	});
 	}
 
+	ngOnInit() {
+  		if (this.authService.isAuthenticated()) {
+    		this.router.navigate(['/']);
+  		}
+	}
+
+
 	async onSubmit() {
 		if (this.loginForm.invalid) return;
     	this.isLoading = true;
@@ -31,7 +38,7 @@ export class LoginComponent {
     
     	try {
       		await this.authService.login(email, password);
-      		this.router.navigate(['/dashboard']);
+      		this.router.navigate(['/']);
     	} catch (error: any) {
       		this.errorMessage = this.getErrorMessage(error.code);
     	} finally {
