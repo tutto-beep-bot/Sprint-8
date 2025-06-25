@@ -6,10 +6,12 @@ import { ChartsComponent } from './charts/charts.component';
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './guards/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent},
+    { path: 'register', component: RegisterComponent},
     { path: '', component: ProductsListComponent, canActivate: [authGuard]},
     { path: 'add', component: AddEditProductComponent, canActivate: [authGuard]},
     { path: 'edit/:id', component: AddEditProductComponent},

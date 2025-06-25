@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 
 @Component({
   selector: 'app-register',
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -15,7 +15,7 @@ export class RegisterComponent {
 	errorMessage: string = '';
 	isLoading: boolean = false;
 
-	constructor(private _authService: AuthService, private router: Router, private fb: FormBuilder){.
+	constructor(private _authService: AuthService, private router: Router, private fb: FormBuilder){
 		this.registerForm = this.fb.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
