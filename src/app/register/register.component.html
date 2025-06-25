@@ -1,5 +1,5 @@
 <div class="register-container">
-  	<h2>Register</h2>
+  	<h2 class="register-title">Register</h2>
   	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
     	<div class="form-group">
       		<label for="email">Email</label>
@@ -63,7 +63,7 @@
       		<div class="error-message">{{ errorMessage }}</div>
     	}
 
-    	<button type="submit" [disabled]="isLoading || registerForm.invalid">
+    	<button type="submit" [disabled]="isLoading || registerForm.invalid" class="btn btn-success">
       		@if (isLoading) {
         		<span>Creating account...</span>
       		} @else {

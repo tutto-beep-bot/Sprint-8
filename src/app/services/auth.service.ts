@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { 
-  	getAuth, 
+import { Injectable, inject } from '@angular/core';
+import {  
   	signInWithEmailAndPassword, 
   	createUserWithEmailAndPassword,
   	signOut,
   	onAuthStateChanged,
   	User
 } from 'firebase/auth';
-import { firebaseConfig } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-	private app = initializeApp(firebaseConfig);
-	private auth = getAuth(this.app);
+
+	private auth: Auth = inject(Auth);;
 	
 	private userSubject = new BehaviorSubject<User | null>(null);
 	user$ = this.userSubject.asObservable();
