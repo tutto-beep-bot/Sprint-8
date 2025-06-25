@@ -30,12 +30,21 @@
         
         
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a [routerLink]="['/login']" routerLinkActive="active" class="nav-link">Login</a>
-          </li>
-          <li>
-            <a [routerLink]="['/register']" routerLinkActive="active" class="nav-link">Register</a>
-          </li>
+          @if (isLoggedIn) {
+            <li class="nav-item">
+              <a (click)="logout()" class="nav-link" style="cursor: pointer;">
+                Logout
+              </a>
+            </li>
+          } @else {
+            <li class="nav-item">
+              <a [routerLink]="['/login']" routerLinkActive="active" class="nav-link">Login</a>
+            </li>
+            <li>
+              <a [routerLink]="['/register']" routerLinkActive="active" class="nav-link">Register</a>
+            </li>
+          }
+
         </ul>
       </div>
     </div>
