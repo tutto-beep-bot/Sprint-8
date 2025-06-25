@@ -7,17 +7,32 @@
 	padding: 2rem;
 }
 
-.howto-container{
+.header {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	margin: 1rem;
+}
+
+.howto-wrapper{
 	display: flex;
 	justify-content: center;
+	background-color: rgb(236, 233, 227);
+	border-radius: 15px;
+	width: fit-content;
+	padding: 0.2rem 0.5rem;
+}
+
+.howto-container{
+	display: flex;
 	align-items: center;
 	margin-top: 0.3rem;
-	text-decoration: underline;
+
 }
 
 ::ng-deep full-calendar {
   width: 100%;
-  max-width: 1000px;
+  max-width: 900px;
 }
 
 ::ng-deep .fc-daygrid-day-number {

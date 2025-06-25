@@ -1,11 +1,13 @@
-<div class="title">
-    <h2>Charts</h2>
+<div class="title-wrapper">
+    <div class="title">
+        <h2>- Charts</h2>
+    </div>
 </div>
+
 <br>
 
 <div class="chart-container" style="width: 600px; height: 400px;">
-    <h4>Products in stock at the warehouse: </h4> <br>
-
+    
     @if (loading) {
         <h4>Loading chart...</h4>
     }
@@ -15,6 +17,7 @@
     }
     
     @if(!loading && !error) {
+        <h4>-Products in stock at the warehouse: </h4> <br>
         <ngx-charts-pie-chart
           [results]="topStockData"
           [legend]="true"
@@ -29,7 +32,7 @@
         <br><br>
         <hr>
         
-        <h4>Main products according to price:</h4>
+        <h4>-Our most expensive products:</h4> <br>
         <ngx-charts-bar-vertical
             [results]="priceData"
             [xAxis]="true"
