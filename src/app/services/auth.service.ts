@@ -25,24 +25,38 @@ export class AuthService {
 		})
 	}
 
-	login(email: string, password: string) {
-		return signInWithEmailAndPassword(this.auth, email, password);
-	}
+	async login(email: string, password: string) {
+    	try {
+      		await signInWithEmailAndPassword(this.auth, email, password);
+      		return true;
+    	} catch (error) {
+      		console.error('Login error:', error);
+      		throw error;
+    	}
+  	}
 
-	register(email: string, password: string) {
-		return createUserWithEmailAndPassword(this.auth, email, password);
-	}
+  	async register(email: string, password: string) {
+    	try {
+      		await createUserWithEmailAndPassword(this.auth, email, password);
+      		return true;
+    	} catch (error) {
+      		console.error('Registration error:', error);
+      		throw error;
+    	}
+  	}
 
-	logout(){
-		return signOut(this.auth);
-	}
+  	async logout() {
+    	try {
+      		await signOut(this.auth);
+      		return true;
+    	} catch (error) {
+      		console.error('Logout error:', error);
+      		throw error;
+    	}
+  	}
 
-	isAuthenticated() {
-		return !!this.currentUser;
-	}
-
-	getCurrentUser() {
-		return this.currentUser;
-	}
+  	isAuthenticated() {
+    	return !!this.currentUser;
+  	}
 
 }

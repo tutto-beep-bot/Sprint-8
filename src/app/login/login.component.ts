@@ -1,42 +1,60 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  	email: string = '';
-  	password: string = '';
+	loginForm: FormGroup;
   	errorMessage: string = '';
+	isLoading: boolean = false;
 
-	constructor(private authService: AuthService, private router: Router){}
-
-	onSubmit() {
-		this.authService.login(this.email, this.password)
-			.then(() => {
-				this.router.navigate(['/dashboard']);
-			})
-			.catch(error => {
-				this.errorMessage = this.getErrorMessage(error.code)
-			})
+	constructor(private authService: AuthService, private router: Router, fb: FormBuilder){
+		this.loginForm = fb.group({
+      		email: ['', [Validators.required, Validators.email]],
+      		password: ['', [Validators.required, Validators.minLength(6)]]
+    	});
 	}
 
-	private getErrorMessage(code: string): string {
-		switch(code) {
-			case 'auth/invalid-email':
-				return 'Invalid email format';
-			case 'auth/user-disabled':
-        		return 'This account has been disabled';
-      		case 'auth/user-not-found':
-        		return 'No account found with this email';
-      		case 'auth/wrong-password':
-        		return 'Incorrect password';
-      		default:
-        		return 'Login failed. Please try again';
-		}
-	}
+	async onSubmit() {
+		if (this.loginForm.invalid) return;
+    	this.isLoading = true;
+    	this.errorMessage = '';
+		
+		const { email, password } = this.loginForm.value;
+    
+    	try {
+      		await this.authService.login(email, password);
+      		this.router.navigate(['/dashboard']);
+    	} catch (error: any) {
+      		this.errorMessage = this.getErrorMessage(error.code);
+    	} finally {
+      		this.isLoading = false;
+    	}
+  	}
+
+  	private getErrorMessage(code: string): string {
+    	const errorMessages: Record<string, string> = {
+      		'auth/invalid-email': 'Invalid email format',
+      		'auth/user-disabled': 'This account has been disabled',
+      		'auth/user-not-found': 'No account found with this email',
+      		'auth/wrong-password': 'Incorrect password',
+      		'default': 'Login failed. Please try again'
+    	};
+    	return errorMessages[code] || errorMessages['default'];
+  	}
+
+	get email() {
+    	return this.loginForm.get('email');
+  	}
+
+  	get password() {
+    	return this.loginForm.get('password');
+  	}
 }
