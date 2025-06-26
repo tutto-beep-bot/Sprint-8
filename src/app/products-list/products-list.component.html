@@ -32,7 +32,7 @@
 
     @if (productsList) {
         @for (product of filteredProducts(); track product) {
-            <tr class="table-success">
+            <tr class="table-active">
 				<td>{{ product.name }}</td>
 				<td>{{ product.description }}</td>
 				<td>{{ product.price | currency: 'EUR' }}</td>

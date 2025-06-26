@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent {
 	errorMessage: string = '';
 	isLoading: boolean = false;
 
-	constructor(private _authService: AuthService, private router: Router, private fb: FormBuilder){
+	constructor(private _authService: AuthService, private router: Router, private fb: FormBuilder, private toastr: ToastrService){
 		this.registerForm = this.fb.group({
 			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required, Validators.minLength(6)]],
@@ -44,6 +45,8 @@ export class RegisterComponent {
 		} finally {
 			this.isLoading = false;
 		}
+
+		this.toastr.success('Account created sucessfully.', 'Account created')
 	}
 
 	private getErrorMessage(code: string): string {

@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { BehaviorSubject } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class AuthService {
 	
 	private userSubject = new BehaviorSubject<User | null>(null);
 	user$ = this.userSubject.asObservable();
+	private _isAuthResolved = new ReplaySubject<boolean>(1);
+  	isAuthResolved$ = this._isAuthResolved.asObservable();
 	
 	currentUser: User | null = null;
 
@@ -29,6 +32,7 @@ export class AuthService {
 			console.log('onAuthStateChanged fired!', user);
 			this.currentUser = user;
 			this.userSubject.next(user);
+			this._isAuthResolved.next(true);
 		})
 	}
 
