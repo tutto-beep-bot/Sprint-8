@@ -1,1 +1,58 @@
-<p>calendar works!</p>
+<div class="header">
+	<div class="howto-wrapper">
+		<div class="howto-container">
+			<span class="badge bg-light">i  </span>
+			<h6>Click on a date to add or visualize an Event.</h6>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="calendar-container">    
+    <full-calendar
+		#calendar
+      	[options]="calendarOptions"
+    ></full-calendar>
+</div>
+
+
+<div class="modal fade" id="deliveryModal" tabindex="-1" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="deliveryModalLabel">{{ isEditing ? 'Edit' : 'Add' }} Delivery</h5>
+        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      		</div>
+      		<div class="modal-body">
+        		<form>
+          			<div class="mb-3">
+            			<label class="form-label">Title</label>
+            			<input [(ngModel)]="eventData.title" name="title" class="form-control">
+          			</div>
+					<div class="mb-3">
+  						<label for="deliveryDescription" class="form-label">Description</label>
+  						<textarea
+    						id="deliveryDescription"
+    						class="form-control"
+    						[(ngModel)]="eventData.description"
+    						rows="3"
+							name="description"
+  						></textarea>
+					</div>
+          			<div class="mb-3">
+            			<label class="form-label">Date</label>
+            			<input [(ngModel)]="eventData.start" name="start" type="date" class="form-control">
+          			</div>
+        		</form>
+      		</div>
+      		<div class="modal-footer">
+				@if(isEditing){
+					<button class="btn btn-danger" (click)="deleteEvent()">Delete</button>
+				}
+        		<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        		<button class="btn btn-success" (click)="saveEvent()">Save</button>
+      		</div>
+    	</div>
+  	</div>
+</div>

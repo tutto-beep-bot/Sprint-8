@@ -3,8 +3,7 @@
     <div class="button-search">
         <button type="button" class="btn btn-success" [routerLink]="['/add']">Add Product</button>
         <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control me-sm-2" type="text" placeholder="Search by Name" (input)="searchTerm = $any($event.target).value">
         </form>
     </div>
 
@@ -13,27 +12,34 @@
     </div>
 
     <table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Stock</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
+        <thead>
+            @if(productsList.length > 0) {
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col"></th>
+                </tr>
+            } @else {
+                <div class="title">
+                    <h4>There are no products</h4>
+                </div>
+            }
+        </thead>
+        <tbody>
+        
 
     @if (productsList) {
-        @for (product of productsList; track product) {
-            <tr class="table-success">
+        @for (product of filteredProducts(); track product) {
+            <tr class="table-active">
 				<td>{{ product.name }}</td>
 				<td>{{ product.description }}</td>
 				<td>{{ product.price | currency: 'EUR' }}</td>
 				<td>{{ product.stock }}</td>
 				<td>
 				    <button type="button" class="btn btn-info btn-sm ms-2 button-edit" [routerLink]="['/edit/', product.id]">Edit</button>
-					<button type="button" class="btn btn-primary btn-sm">Delete</button>
+					<button type="button" class="btn btn-primary btn-sm" (click)="deleteProduct(product.id!)">Delete</button>
 		
 				</td>
 			</tr>

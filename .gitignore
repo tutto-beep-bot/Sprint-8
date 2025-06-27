@@ -45,3 +45,7 @@ Thumbs.db
 /server/node_modules
 /server/dist
 /server/.env
+
+# Ignore generated CSS and map files
+*.css
+*.css.map

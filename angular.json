@@ -34,9 +34,14 @@
             ],
             "styles": [
               "node_modules/bootswatch/dist/simplex/bootstrap.min.css",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,6 +99,9 @@
               }
             ],
             "styles": [
+              "node_modules/bootswatch/dist/simplex/bootstrap.min.css",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
             "scripts": []
