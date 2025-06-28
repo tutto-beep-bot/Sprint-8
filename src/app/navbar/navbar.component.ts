@@ -16,7 +16,7 @@ export class NavbarComponent {
 	ngOnInit(){
 		this._auth.user$.subscribe(user => {
 			this.isLoggedIn = !!user;
-			console.log('🔔 Navbar sees user:', user, '→ isLoggedIn=', this.isLoggedIn);
+			console.log('Navbar sees user:', user, '→ isLoggedIn=', this.isLoggedIn);
 		});
 	}
 

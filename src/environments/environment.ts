@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    endpoint: 'https://food-distributor.onrender.com/'
+    endpoint: 'http://localhost:3000/'
 }
 
 export const firebaseConfig = {

@@ -46,13 +46,16 @@
           			</div>
         		</form>
       		</div>
-      		<div class="modal-footer">
+      		<div class="modal-footer d-flex justify-content-between">
 				@if(isEditing){
 					<button class="btn btn-danger" (click)="deleteEvent()">Delete</button>
 				}
-        		<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        		<button class="btn btn-success" (click)="saveEvent()">Save</button>
-      		</div>
+				<div class="gap-2 d-inline-flex">
+					<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button class="btn btn-success" (click)="saveEvent()">Save</button>
+				</div>
+			</div>
     	</div>
-  	</div>
+	</div>
 </div>
+
