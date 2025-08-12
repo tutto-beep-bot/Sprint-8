@@ -10,6 +10,9 @@ import { ViewChild } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { ToastrService } from 'ngx-toastr';
 
+import { createClient } from '@supabase/supabase-js';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-calendar',
@@ -18,6 +21,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
+
+	private supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
 	@ViewChild('calendar') CalendarComponent!: FullCalendarComponent;
 
@@ -41,15 +46,30 @@ export class CalendarComponent implements OnInit {
 		this.fetchEvents();
 	}
 
-	fetchEvents(){
-		this.http.get<any[]>('http://localhost:3000/api/deliveries')
-			.subscribe(events => {
-				const calendarApi = this.CalendarComponent.getApi();
-        		calendarApi.removeAllEvents();
-        		events.forEach(event => {
-          			calendarApi.addEvent(event);
-        		});
-			});
+	// fetchEvents(){
+	// 	this.http.get<any[]>('http://localhost:3000/api/deliveries')
+	// 		.subscribe(events => {
+	// 			const calendarApi = this.CalendarComponent.getApi();
+    //     		calendarApi.removeAllEvents();
+    //     		events.forEach(event => {
+    //       			calendarApi.addEvent(event);
+    //     		});
+	// 		});
+	// }
+
+	async fetchEvents() {
+  		const { data, error } = await this.supabase
+			.from('deliveries')
+			.select('*');
+		if (error) {
+			this.toastr.error('Failed to fetch deliveries.', 'Error');
+			return;
+		}
+		const calendarApi = this.CalendarComponent.getApi();
+		calendarApi.removeAllEvents();
+		data.forEach((event: any) => {
+			calendarApi.addEvent(event);
+		});
 	}
 
 	handleDateClick(arg: any) {
@@ -81,44 +101,72 @@ export class CalendarComponent implements OnInit {
     	modal.show();
   	}
 
-	saveEvent() {
-    	const url = this.isEditing
-      		? `http://localhost:3000/api/deliveries/${this.editingEventId}`
-      		: 'http://localhost:3000/api/deliveries';
+	// saveEvent() {
+    // 	const url = this.isEditing
+    //   		? `http://localhost:3000/api/deliveries/${this.editingEventId}`
+    //   		: 'http://localhost:3000/api/deliveries';
 
-    	const method = this.isEditing ? 'put' : 'post';
+    // 	const method = this.isEditing ? 'put' : 'post';
 
-    	this.http[method](url, this.eventData).subscribe(() => {
-      		this.fetchEvents();
-      		(window as any).bootstrap.Modal.getInstance(
-        		document.getElementById('deliveryModal')
-      		).hide();
-    	});
+    // 	this.http[method](url, this.eventData).subscribe(() => {
+    //   		this.fetchEvents();
+    //   		(window as any).bootstrap.Modal.getInstance(
+    //     		document.getElementById('deliveryModal')
+    //   		).hide();
+    // 	});
 
-		this.toastr.success('Delivery saved successfully.', 'Delivery saved')
+	// 	this.toastr.success('Delivery saved successfully.', 'Delivery saved')
 
-		this.eventData = { title: '', start: '', description: '' };
-		this.isEditing = false;
-		this.editingEventId = null;
-  	}
+	// 	this.eventData = { title: '', start: '', description: '' };
+	// 	this.isEditing = false;
+	// 	this.editingEventId = null;
+  	// }
 
-	deleteEvent() {
+	async saveEvent() {
+		try {
+			if (this.isEditing && this.editingEventId) {
+				await this.supabase
+					.from('deliveries')
+					.update(this.eventData)
+					.eq('id', this.editingEventId);
+				} else {
+				await this.supabase
+					.from('deliveries')
+					.insert([this.eventData]);
+				}
+    			await this.fetchEvents();
+				(window as any).bootstrap.Modal.getInstance(
+					document.getElementById('deliveryModal')
+				).hide();
+				this.toastr.success('Delivery saved successfully.', 'Delivery saved');
+				this.eventData = { title: '', start: '', description: '' };
+				this.isEditing = false;
+				this.editingEventId = null;
+				} catch (error) {
+				this.toastr.error('Failed to save delivery.', 'Error');
+				}
+	}
+
+	async deleteEvent() {
   		if (!this.editingEventId) return;
 
   		if (confirm('Are you sure you want to delete this delivery?')) {
-    		this.http.delete(`http://localhost:3000/api/deliveries/${this.editingEventId}`)
-      			.subscribe(() => {
-        			this.fetchEvents();
-        			(window as any).bootstrap.Modal.getInstance(
-          				document.getElementById('deliveryModal')
-        			).hide();
-		
-		this.toastr.warning('Event was deleted successfully.', 'Event deleted')
-		
-        this.eventData = { title: '', start: '', description: '' };
-        this.isEditing = false;
-        this.editingEventId = null;
-      });
-  }
-}
+    		try {
+      			await this.supabase
+					.from('deliveries')
+					.delete()
+					.eq('id', this.editingEventId);
+      			await this.fetchEvents();
+      			(window as any).bootstrap.Modal.getInstance(
+        			document.getElementById('deliveryModal')
+      			).hide();
+				this.toastr.warning('Event was deleted successfully.', 'Event deleted');
+				this.eventData = { title: '', start: '', description: '' };
+				this.isEditing = false;
+				this.editingEventId = null;
+    			} catch (error) {
+      			this.toastr.error('Failed to delete delivery.', 'Error');
+    			}
+  		}
+	}
 }

@@ -1,6 +1,8 @@
 export const environment = {
     production: false,
-    endpoint: 'http://localhost:3000/'
+    // endpoint: 'http://localhost:3000/'
+    supabaseUrl: 'https://ntwarwombzbpuwocmylj.supabase.co',
+    supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50d2Fyd29tYnpicHV3b2NteWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUwMTEyNjMsImV4cCI6MjA3MDU4NzI2M30.CQJVJZx4uTxPjMSjBQQuKoIVTY5uqdgS4p1PEMMugw8'
 }
 
 export const firebaseConfig = {
