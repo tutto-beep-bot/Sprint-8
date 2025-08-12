@@ -23,30 +23,59 @@ export class ProductsListComponent {
     this.getListProducts()
   }
 
-  getListProducts() {
-    this._productService.getListProducts().subscribe((data: Product[]) => {
-      this.productsList = data;
-    })
-  }
+//   getListProducts() {
+//     this._productService.getListProducts().subscribe((data: Product[]) => {
+//       this.productsList = data;
+//     })
+//   }
 
-  deleteProduct(id: number) {
-    const confirmed: boolean = window.confirm('Are you sure you want to delete this product?');
+//   deleteProduct(id: number) {
+//     const confirmed: boolean = window.confirm('Are you sure you want to delete this product?');
 
-    if(confirmed) {
-      this._productService.deleteProduct(id).subscribe(() => {
-        this.getListProducts();
-        this.toastr.warning('Product was deleted successfully.', 'Product deleted')
-      })
+//     if(confirmed) {
+//       this._productService.deleteProduct(id).subscribe(() => {
+//         this.getListProducts();
+//         this.toastr.warning('Product was deleted successfully.', 'Product deleted')
+//       })
+//     }
+//   }
+
+//  filteredProducts() {
+
+//     const term = this.searchTerm.trim().toLocaleLowerCase();
+
+//     if(!term) return this.productsList;
+
+//     return this.productsList.filter(product => 
+//       product.name.toLowerCase().startsWith(term)
+//     );
+//   }
+
+  async getListProducts() {
+    try {
+      this.productsList = await this._productService.getProducts();
+    } catch (error) {
+      this.toastr.error('Failed to fetch products.', 'Error');
     }
   }
 
- filteredProducts() {
+  async deleteProduct(id: number) {
+    const confirmed: boolean = window.confirm('Are you sure you want to delete this product?');
+    if (confirmed) {
+      try {
+        await this._productService.deleteProduct(id);
+        await this.getListProducts();
+        this.toastr.warning('Product was deleted successfully.', 'Product deleted');
+      } catch (error) {
+        this.toastr.error('Failed to delete product.', 'Error');
+      }
+    }
+  }
 
+  filteredProducts() {
     const term = this.searchTerm.trim().toLocaleLowerCase();
-
-    if(!term) return this.productsList;
-
-    return this.productsList.filter(product => 
+    if (!term) return this.productsList;
+    return this.productsList.filter(product =>
       product.name.toLowerCase().startsWith(term)
     );
   }
